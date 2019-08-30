@@ -18,7 +18,7 @@ This is a Win7 style indicator for [Latte Dock](https://phabricator.kde.org/sour
 
 # Requires
 
-- Latte v0.9.2 Version
+- Latte v0.9.2 version
 
 # Install
 
