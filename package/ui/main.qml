@@ -77,7 +77,7 @@ LatteComponents.IndicatorItem {
         target: root
         property: "appletLengthPadding"
         when: root.hasOwnProperty("appletLengthPadding")
-        value: indicator.configuration.appletMargin
+        value: indicator.configuration.appletPadding
     }
 
     //! Background Layer

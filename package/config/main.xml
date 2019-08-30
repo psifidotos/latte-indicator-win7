@@ -14,7 +14,7 @@
     <entry name="progressAnimationEnabled" type="Bool">
         <default>true</default>
     </entry>  
-    <entry name="appletMargin" type="Double">
+    <entry name="appletPadding" type="Double">
         <default>0.15</default>
     </entry>        
   </group>

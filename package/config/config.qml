@@ -97,15 +97,15 @@ ColumnLayout {
                 Layout.minimumWidth: implicitWidth
                 horizontalAlignment: Text.AlignLeft
                 Layout.rightMargin: units.smallSpacing
-                text: i18n("Applets Margin")
+                text: i18n("Applets Padding")
             }
 
             LatteComponents.Slider {
-                id: appletMarginSlider
+                id: appletPaddingSlider
                 Layout.fillWidth: true
 
                 leftPadding: 0
-                value: indicator.configuration.appletMargin * 100
+                value: indicator.configuration.appletPadding * 100
                 from: 0
                 to: 80
                 stepSize: 5
@@ -113,7 +113,7 @@ ColumnLayout {
 
                 function updateMargin() {
                     if (!pressed) {
-                        indicator.configuration.appletMargin = value/100;
+                        indicator.configuration.appletPadding = value/100;
                     }
                 }
 
@@ -131,7 +131,7 @@ ColumnLayout {
             }
 
             PlasmaComponents.Label {
-                text: i18nc("number in percentage, e.g. 85 %","%0 %").arg(appletMarginSlider.value)
+                text: i18nc("number in percentage, e.g. 85 %","%0 %").arg(appletPaddingSlider.value)
                 horizontalAlignment: Text.AlignRight
                 Layout.minimumWidth: theme.mSize(theme.defaultFont).width * 4
                 Layout.maximumWidth: theme.mSize(theme.defaultFont).width * 4
