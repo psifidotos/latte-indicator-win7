@@ -23,6 +23,9 @@ This is a Win7 style indicator for [Latte Dock](https://phabricator.kde.org/sour
 # Install
 
 From Latte UI: **Effects -> Indicators -> Style -> Get New Indicators...**
+<br>From command line: ``kpackagetool5 -i . -t Latte/Indicator``
 
-From command line: ``kpackagetool5 -i . -t Latte/Indicator``
+# Update
 
+From Latte UI: **Effects -> Indicators -> Style -> Get New Indicators... -> Installed**
+<br>From command line: ``kpackagetool5 -u . -t Latte/Indicator``
