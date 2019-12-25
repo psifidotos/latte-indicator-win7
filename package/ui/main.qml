@@ -33,8 +33,11 @@ LatteComponents.IndicatorItem {
     minLengthPadding: 0.25
 
     readonly property bool progressVisible: indicator.hasOwnProperty("progressVisible") ? indicator.progressVisible : false
+    readonly property bool isHorizontal: plasmoid.formFactor === PlasmaCore.Types.Horizontal
+    readonly property bool isVertical: !isHorizontal
 
-    readonly property int thickness: plasmoid.formFactor === PlasmaCore.Types.Vertical ? width : height
+    readonly property int screenEdgeMargin: indicator.hasOwnProperty("screenEdgeMargin") ? indicator.screenEdgeMargin : 0
+    readonly property int thickness: !isHorizontal ? width - screenEdgeMargin : height - screenEdgeMargin
 
     readonly property int shownWindows: indicator.windowsCount - indicator.windowsMinimizedCount
     readonly property int maxDrawnMinimizedWindows: shownWindows > 0 ? Math.min(indicator.windowsMinimizedCount,2) : 3
@@ -81,47 +84,59 @@ LatteComponents.IndicatorItem {
     }
 
     //! Background Layer
-    Loader {
-        anchors.right: parent.right
-        anchors.top: parent.top
-        active: indicator.windowsCount>=3
-        opacity: 0.3
-
-        sourceComponent: GroupRect{
-        }
-    }
-
-    Loader {
-        anchors.right: parent.right
-        anchors.top: parent.top
-        active: indicator.windowsCount>=2
-        anchors.rightMargin: indicator.windowsCount>2 && active ? groupItemLength : 0
-        opacity: 0.6
-
-        sourceComponent: GroupRect{
-        }
-    }
-
-    Loader{
-        id: backLayer
-        anchors.top: parent.top
-        anchors.left: parent.left
-        active: level.isBackground && (indicator.isActive || (indicator.isTask && !indicator.isLauncher)) && indicator.isSquare
-
-        sourceComponent: BackLayer{
-            width: root.width - groupsSideMargin
-            height: root.height
-
-            showProgress: root.progressVisible
-        }
-    }
-
-    Loader{
-        id: plasmaBackHighlight
+    Item {
+        id: floater
         anchors.fill: parent
-        active: level.isBackground && indicator.isActive && !indicator.isSquare
+        anchors.topMargin: plasmoid.location === PlasmaCore.Types.TopEdge ? root.screenEdgeMargin : 0
+        anchors.bottomMargin: plasmoid.location === PlasmaCore.Types.BottomEdge ? root.screenEdgeMargin : 0
+        anchors.leftMargin: plasmoid.location === PlasmaCore.Types.LeftEdge ? root.screenEdgeMargin : 0
+        anchors.rightMargin: plasmoid.location === PlasmaCore.Types.RightEdge ? root.screenEdgeMargin : 0
 
-        sourceComponent: PlasmaHighlight{
+        Loader {
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+
+            height: parent.height
+            active: indicator.windowsCount>=3
+            opacity: 0.3
+
+            sourceComponent: GroupRect{
+            }
+        }
+
+        Loader {
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.rightMargin: indicator.windowsCount>2 && active ? groupItemLength : 0
+
+            height: parent.height
+            active: indicator.windowsCount>=2
+            opacity: 0.6
+
+            sourceComponent: GroupRect{
+            }
+        }
+
+        Loader{
+            id: backLayer
+            anchors.fill: parent
+            anchors.rightMargin: groupsSideMargin
+            active: level.isBackground && (indicator.isActive || (indicator.isTask && !indicator.isLauncher)) && indicator.isSquare
+
+            sourceComponent: BackLayer{
+                anchors.fill: parent
+
+                showProgress: root.progressVisible
+            }
+        }
+
+        Loader{
+            id: plasmaBackHighlight
+            anchors.fill: parent
+            active: level.isBackground && indicator.isActive && !indicator.isSquare
+
+            sourceComponent: PlasmaHighlight{
+            }
         }
     }
 }

@@ -25,7 +25,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 
 Item{
     width: root.groupItemLength + 2
-    height: root.height
+    height: parent.height
     clip: true
 
     BackLayer{
