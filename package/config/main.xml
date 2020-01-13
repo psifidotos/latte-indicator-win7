@@ -16,6 +16,12 @@
     </entry>  
     <entry name="appletPadding" type="Double">
         <default>0.15</default>
-    </entry>        
+    </entry>
+    <entry name="enabledForApplets" type="Bool">
+        <default>true</default>
+    </entry>
+    <entry name="lengthPadding" type="Double">
+        <default>0.35</default>
+    </entry>
   </group>
 </kcfg>

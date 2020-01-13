@@ -67,8 +67,8 @@ LatteComponents.IndicatorItem {
     }
 
 
-
-    //! Bindings
+    //! Bindings for properties that have introduced
+    //! later on Latte versions > 0.9.2
     Binding{
         target: level.requested
         property: "iconOffsetX"
@@ -81,6 +81,20 @@ LatteComponents.IndicatorItem {
         property: "appletLengthPadding"
         when: root.hasOwnProperty("appletLengthPadding")
         value: indicator.configuration.appletPadding
+    }
+
+    Binding{
+        target: root
+        property: "enabledForApplets"
+        when: root.hasOwnProperty("enabledForApplets")
+        value: indicator.configuration.enabledForApplets
+    }
+
+    Binding{
+        target: root
+        property: "lengthPadding"
+        when: root.hasOwnProperty("lengthPadding")
+        value: indicator.configuration.lengthPadding
     }
 
     //! Background Layer

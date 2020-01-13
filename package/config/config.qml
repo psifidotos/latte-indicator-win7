@@ -33,12 +33,102 @@ import org.kde.latte.components 1.0 as LatteComponents
 ColumnLayout {
     Layout.fillWidth: true
 
+    readonly property bool deprecatedPropertiesAreHidden: dialog && dialog.hasOwnProperty("deprecatedOptionsAreHidden") && dialog.deprecatedOptionsAreHidden
+
     LatteComponents.SubHeader {
         text: i18n("Appearance")
     }
 
     ColumnLayout {
         spacing: 0
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: units.smallSpacing
+            visible: deprecatedPropertiesAreHidden
+
+            PlasmaComponents.Label {
+                text: i18n("Length")
+                horizontalAlignment: Text.AlignLeft
+            }
+
+            LatteComponents.Slider {
+                id: lengthIntMarginSlider
+                Layout.fillWidth: true
+
+                value: Math.round(indicator.configuration.lengthPadding * 100)
+                from: 25
+                to: maxMargin
+                stepSize: 1
+                wheelEnabled: false
+
+                readonly property int maxMargin: 80
+
+                onPressedChanged: {
+                    if (!pressed) {
+                        indicator.configuration.lengthPadding = value / 100;
+                    }
+                }
+            }
+
+            PlasmaComponents.Label {
+                text: i18nc("number in percentage, e.g. 85 %","%0 %").arg(currentValue)
+                horizontalAlignment: Text.AlignRight
+                Layout.minimumWidth: theme.mSize(theme.defaultFont).width * 4
+                Layout.maximumWidth: theme.mSize(theme.defaultFont).width * 4
+
+                readonly property int currentValue: lengthIntMarginSlider.value
+            }
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 2
+
+            PlasmaComponents.Label {
+                Layout.minimumWidth: implicitWidth
+                horizontalAlignment: Text.AlignLeft
+                Layout.rightMargin: units.smallSpacing
+                text: i18n("Applets Length")
+            }
+
+            LatteComponents.Slider {
+                id: appletPaddingSlider
+                Layout.fillWidth: true
+
+                leftPadding: 0
+                value: indicator.configuration.appletPadding * 100
+                from: 0
+                to: 80
+                stepSize: 5
+                wheelEnabled: false
+
+                function updateMargin() {
+                    if (!pressed) {
+                        indicator.configuration.appletPadding = value/100;
+                    }
+                }
+
+                onPressedChanged: {
+                    updateMargin();
+                }
+
+                Component.onCompleted: {
+                    valueChanged.connect(updateMargin);
+                }
+
+                Component.onDestruction: {
+                    valueChanged.disconnect(updateMargin);
+                }
+            }
+
+            PlasmaComponents.Label {
+                text: i18nc("number in percentage, e.g. 85 %","%0 %").arg(appletPaddingSlider.value)
+                horizontalAlignment: Text.AlignRight
+                Layout.minimumWidth: theme.mSize(theme.defaultFont).width * 4
+                Layout.maximumWidth: theme.mSize(theme.defaultFont).width * 4
+            }
+        }
 
         RowLayout {
             Layout.fillWidth: true
@@ -88,55 +178,6 @@ ColumnLayout {
                 Layout.maximumWidth: theme.mSize(theme.defaultFont).width * 4
             }
         }
-
-        RowLayout {
-            Layout.fillWidth: true
-            spacing: 2
-
-            PlasmaComponents.Label {
-                Layout.minimumWidth: implicitWidth
-                horizontalAlignment: Text.AlignLeft
-                Layout.rightMargin: units.smallSpacing
-                text: i18n("Applets Padding")
-            }
-
-            LatteComponents.Slider {
-                id: appletPaddingSlider
-                Layout.fillWidth: true
-
-                leftPadding: 0
-                value: indicator.configuration.appletPadding * 100
-                from: 0
-                to: 80
-                stepSize: 5
-                wheelEnabled: false
-
-                function updateMargin() {
-                    if (!pressed) {
-                        indicator.configuration.appletPadding = value/100;
-                    }
-                }
-
-                onPressedChanged: {
-                    updateMargin();
-                }
-
-                Component.onCompleted: {
-                    valueChanged.connect(updateMargin);
-                }
-
-                Component.onDestruction: {
-                    valueChanged.disconnect(updateMargin);
-                }
-            }
-
-            PlasmaComponents.Label {
-                text: i18nc("number in percentage, e.g. 85 %","%0 %").arg(appletPaddingSlider.value)
-                horizontalAlignment: Text.AlignRight
-                Layout.minimumWidth: theme.mSize(theme.defaultFont).width * 4
-                Layout.maximumWidth: theme.mSize(theme.defaultFont).width * 4
-            }
-        }
     }
 
 
@@ -155,6 +196,18 @@ ColumnLayout {
             onClicked: {
                 indicator.configuration.progressAnimationEnabled = !indicator.configuration.progressAnimationEnabled
             }
+        }
+    }
+
+    LatteComponents.CheckBox {
+        Layout.maximumWidth: dialog.optionsWidth
+        text: i18n("Show indicators for applets")
+        checked: indicator.configuration.enabledForApplets
+        tooltip: i18n("Indicators are shown for applets")
+        visible: deprecatedPropertiesAreHidden
+
+        onClicked: {
+            indicator.configuration.enabledForApplets = !indicator.configuration.enabledForApplets;
         }
     }
 
