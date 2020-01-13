@@ -48,7 +48,7 @@ ColumnLayout {
             visible: deprecatedPropertiesAreHidden
 
             PlasmaComponents.Label {
-                text: i18n("Length")
+                text: i18n("Tasks Length")
                 horizontalAlignment: Text.AlignLeft
             }
 
