@@ -12,7 +12,7 @@ This is a Win7 style indicator for [Latte Dock](https://phabricator.kde.org/sour
 </p>
 
 <p align="center">
-<img src="https://i.imgur.com/DUFZWGZ.png" width="560" ><br/>
+<img src="https://imgur.com/5UWFmFy.png" width="560" ><br/>
 <i>indicator settings</i>
 </p>
 
